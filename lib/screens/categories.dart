@@ -1,59 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_meals_app/data/dummy_data.dart';
 import 'package:flutter_meals_app/models/category.dart';
-import 'package:flutter_meals_app/models/meal.dart';
-import 'package:flutter_meals_app/screens/filters.dart';
+import 'package:flutter_meals_app/providers/filters_provider.dart';
 import 'package:flutter_meals_app/screens/meals.dart';
 import 'package:flutter_meals_app/widgets/category_item.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CategoriesScreen extends StatelessWidget {
-  const CategoriesScreen({
-    super.key,
-    required this.onToggleFavourites,
-    required this.filters,
-  });
+class CategoriesScreen extends ConsumerWidget {
+  const CategoriesScreen({super.key});
 
-  final void Function(Meal meal) onToggleFavourites;
-  final Map<Filter, bool> filters;
-
-  void _selectCategory(BuildContext context, Category category) {
+  void _selectCategory(BuildContext context, WidgetRef ref, Category category) {
+    final availableMeals = ref.watch(filteredMealsProvider);
     final mealsData =
-        dummyMeals
+        availableMeals
             .where((meal) => meal.categories.contains(category.id))
             .toList();
-
-    final filteredMeals =
-        mealsData.where((meal) {
-          if (filters[Filter.glutenFree]! && !meal.isGlutenFree) {
-            return false;
-          }
-          if (filters[Filter.lactoseFree]! && !meal.isLactoseFree) {
-            return false;
-          }
-          if (filters[Filter.vegetarian]! && !meal.isVegetarian) {
-            return false;
-          }
-          if (filters[Filter.vegan]! && !meal.isVegan) {
-            return false;
-          }
-          return true;
-        }).toList();
 
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder:
-            (ctx) => MealsScreen(
-              title: category.title,
-              meals: filteredMeals,
-              onToggleFavourites: onToggleFavourites,
-            ),
+        builder: (ctx) => MealsScreen(title: category.title, meals: mealsData),
       ),
     );
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return GridView(
       padding: const EdgeInsets.all(24),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -68,7 +40,7 @@ class CategoriesScreen extends StatelessWidget {
                 (category) => CategoryItem(
                   category: category,
                   onSelectCategory: () {
-                    _selectCategory(context, category);
+                    _selectCategory(context, ref, category);
                   },
                 ),
               )
