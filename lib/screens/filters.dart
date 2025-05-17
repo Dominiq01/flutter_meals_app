@@ -9,9 +9,38 @@ class FiltersScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final filters = ref.watch(filterProvider);
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Your filters')),
-      body: Column(
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(kToolbarHeight),
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                colorScheme.primaryContainer,
+                colorScheme.primaryContainer.withValues(alpha: .8),
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+          child: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            title: Text(
+              'Your Filters',
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                color: colorScheme.primary,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            centerTitle: true,
+          ),
+        ),
+      ),
+      body: ListView(
+        padding: const EdgeInsets.all(16),
         children: [
           FilterSwitchTile(
             title: 'Gluten-free',
@@ -23,6 +52,7 @@ class FiltersScreen extends ConsumerWidget {
                   .setFilter(Filter.glutenFree, isChecked);
             },
           ),
+          const SizedBox(height: 12),
           FilterSwitchTile(
             title: 'Lactose-free',
             subtitle: 'Only include lactose-free meals.',
@@ -33,6 +63,7 @@ class FiltersScreen extends ConsumerWidget {
                   .setFilter(Filter.lactoseFree, isChecked);
             },
           ),
+          const SizedBox(height: 12),
           FilterSwitchTile(
             title: 'Vegetarian',
             subtitle: 'Only include vegetarian meals.',
@@ -43,6 +74,7 @@ class FiltersScreen extends ConsumerWidget {
                   .setFilter(Filter.vegetarian, isChecked);
             },
           ),
+          const SizedBox(height: 12),
           FilterSwitchTile(
             title: 'Vegan',
             subtitle: 'Only include vegan meals.',

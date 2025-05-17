@@ -3,11 +3,20 @@ import 'package:flutter/material.dart';
 class MainDrawer extends StatelessWidget {
   const MainDrawer({super.key, required this.onSelectScreen});
 
-  final void Function(String indetifier) onSelectScreen;
+  final void Function(String identifier) onSelectScreen;
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+
     return Drawer(
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(0),
+          bottomRight: Radius.circular(24),
+        ),
+      ),
       child: Column(
         children: [
           DrawerHeader(
@@ -15,65 +24,90 @@ class MainDrawer extends StatelessWidget {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Theme.of(context).colorScheme.primaryContainer,
-                  Theme.of(
-                    context,
-                  ).colorScheme.primaryContainer.withValues(alpha: 0.8),
+                  colorScheme.primaryContainer,
+                  colorScheme.primaryContainer.withValues(alpha: .8),
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
             ),
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Icon(
-                  Icons.fastfood,
-                  size: 48,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-                const SizedBox(width: 18),
+                Icon(Icons.fastfood, size: 48, color: colorScheme.primary),
+                const SizedBox(width: 16),
                 Text(
                   'Cooking Up!',
-                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    color: Theme.of(context).colorScheme.primary,
+                  style: textTheme.titleLarge?.copyWith(
+                    color: colorScheme.primary,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ],
             ),
           ),
-          ListTile(
-            leading: Icon(
-              Icons.restaurant,
-              size: 26,
-              color: Theme.of(context).colorScheme.onSurface,
-            ),
-            title: Text(
-              'Meals',
-              style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                color: Theme.of(context).colorScheme.onSurface,
-                fontSize: 24,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+            child: Card(
+              elevation: 2,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: ListTile(
+                leading: Icon(
+                  Icons.restaurant,
+                  color: colorScheme.primary,
+                  size: 26,
+                ),
+                title: Text(
+                  'Meals',
+                  style: textTheme.titleMedium?.copyWith(fontSize: 20),
+                ),
+                onTap: () => onSelectScreen('meals'),
               ),
             ),
-            onTap: () {
-              onSelectScreen('meals');
-            },
           ),
-          ListTile(
-            leading: Icon(
-              Icons.settings,
-              size: 26,
-              color: Theme.of(context).colorScheme.onSurface,
-            ),
-            title: Text(
-              'Filters',
-              style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                color: Theme.of(context).colorScheme.onSurface,
-                fontSize: 24,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+            child: Card(
+              elevation: 2,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: ListTile(
+                leading: Icon(
+                  Icons.settings,
+                  color: colorScheme.primary,
+                  size: 26,
+                ),
+                title: Text(
+                  'Filters',
+                  style: textTheme.titleMedium?.copyWith(fontSize: 20),
+                ),
+                onTap: () => onSelectScreen('filters'),
               ),
             ),
-            onTap: () {
-              onSelectScreen('filters');
-            },
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+            child: Card(
+              elevation: 2,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: ListTile(
+                leading: Icon(
+                  Icons.shuffle,
+                  color: colorScheme.primary,
+                  size: 26,
+                ),
+                title: Text(
+                  'Surprise Me',
+                  style: textTheme.titleMedium?.copyWith(fontSize: 20),
+                ),
+                onTap: () => onSelectScreen('random'),
+              ),
+            ),
           ),
         ],
       ),

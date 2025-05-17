@@ -3,15 +3,6 @@ import 'package:flutter_meals_app/screens/tabs.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-final theme = ThemeData(
-  useMaterial3: true,
-  colorScheme: ColorScheme.fromSeed(
-    brightness: Brightness.dark,
-    seedColor: const Color.fromARGB(255, 131, 57, 0),
-  ),
-  textTheme: GoogleFonts.latoTextTheme(),
-);
-
 void main() {
   runApp(const ProviderScope(child: App()));
 }
@@ -21,6 +12,37 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(theme: theme, home: TabsScreen());
+    final seedColor = const Color(0xFF00C9A7);
+
+    final baseTextTheme = GoogleFonts.latoTextTheme();
+
+    final lightTheme = ThemeData(
+      brightness: Brightness.light,
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: seedColor,
+        brightness: Brightness.light,
+      ),
+      textTheme: baseTextTheme,
+      useMaterial3: true,
+    );
+
+    final darkTheme = ThemeData(
+      brightness: Brightness.dark,
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: seedColor,
+        brightness: Brightness.dark,
+      ),
+      textTheme: baseTextTheme,
+      useMaterial3: true,
+    );
+
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Meals App',
+      theme: lightTheme,
+      darkTheme: darkTheme,
+      themeMode: ThemeMode.system,
+      home: const TabsScreen(),
+    );
   }
 }
