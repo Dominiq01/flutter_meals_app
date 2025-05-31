@@ -32,4 +32,39 @@ class Meal {
   final bool isLactoseFree;
   final bool isVegan;
   final bool isVegetarian;
+
+  factory Meal.fromJson(Map<String, dynamic> json) {
+    return Meal(
+      id: json['idMeal'] ?? '',
+      title: json['strMeal'] ?? 'Unknown',
+      imageUrl: json['strMealThumb'] ?? '',
+      ingredients:
+          List.generate(20, (index) {
+            final ingredient = json['strIngredient${index + 1}'];
+            final measure = json['strMeasure${index + 1}'];
+            if (ingredient != null &&
+                ingredient.toString().isNotEmpty &&
+                ingredient.toString() != 'null') {
+              return measure != null && measure.toString().isNotEmpty
+                  ? '$ingredient - $measure'
+                  : ingredient;
+            }
+            return null;
+          }).whereType<String>().toList(),
+      steps:
+          (json['strInstructions'] as String?)
+              ?.split('\n')
+              .where((line) => line.trim().isNotEmpty)
+              .toList() ??
+          [],
+      duration: 20,
+      complexity: Complexity.simple,
+      affordability: Affordability.affordable,
+      categories: [],
+      isGlutenFree: false,
+      isLactoseFree: false,
+      isVegan: false,
+      isVegetarian: false,
+    );
+  }
 }

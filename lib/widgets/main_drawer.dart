@@ -61,7 +61,10 @@ class MainDrawer extends StatelessWidget {
                 ),
                 title: Text(
                   'Meals',
-                  style: textTheme.titleMedium?.copyWith(fontSize: 20),
+                  style: textTheme.titleMedium?.copyWith(
+                    fontSize: 20,
+                    color: colorScheme.primary,
+                  ),
                 ),
                 onTap: () => onSelectScreen('meals'),
               ),
@@ -82,7 +85,10 @@ class MainDrawer extends StatelessWidget {
                 ),
                 title: Text(
                   'Filters',
-                  style: textTheme.titleMedium?.copyWith(fontSize: 20),
+                  style: textTheme.titleMedium?.copyWith(
+                    fontSize: 20,
+                    color: colorScheme.primary,
+                  ),
                 ),
                 onTap: () => onSelectScreen('filters'),
               ),
@@ -103,9 +109,35 @@ class MainDrawer extends StatelessWidget {
                 ),
                 title: Text(
                   'Surprise Me',
-                  style: textTheme.titleMedium?.copyWith(fontSize: 20),
+                  style: textTheme.titleMedium?.copyWith(
+                    fontSize: 20,
+                    color: colorScheme.primary,
+                  ),
                 ),
                 onTap: () => onSelectScreen('random'),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+            child: Card(
+              elevation: 2,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: ListTile(
+                leading: Icon(
+                  Icons.kitchen,
+                  color: Theme.of(context).colorScheme.primary,
+                  size: 26,
+                ),
+                title: Text(
+                  'Smart Pantry',
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleMedium?.copyWith(fontSize: 20, color: colorScheme.primary),
+                ),
+                onTap: () => onSelectScreen('smart-pantry'),
               ),
             ),
           ),

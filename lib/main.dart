@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_meals_app/screens/pantry_input.dart';
 import 'package:flutter_meals_app/screens/tabs.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -43,6 +44,9 @@ class App extends StatelessWidget {
       darkTheme: darkTheme,
       themeMode: ThemeMode.system,
       home: const TabsScreen(),
+       routes: {
+        '/smart-pantry': (ctx) => const PantryInputScreen(),
+      },
     );
   }
 }

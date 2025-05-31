@@ -44,6 +44,11 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
         _selectedPageIndex = 0;
       });
     }
+
+    if (identifier == 'smart-pantry') {
+      Navigator.of(context).pushNamed('/smart-pantry');
+    }
+    
     if (identifier == 'random') {
       showDialog(
         context: context,
